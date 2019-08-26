@@ -1,0 +1,103 @@
+.form {
+  margin-right: 5%;
+  grid-area: form;
+  width: 95%;
+  height: 100%;
+  text-align: center;
+
+  background: #c4c4c4;
+  border-radius: 10px;
+}
+
+.input {
+  padding-left: 5%;
+  margin-bottom: 5%;
+  width: 90%;
+  height: 50px;
+  background: #eeeeee;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+}
+
+.inputAddress {
+  width: 80%;
+  height: 50px;
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+}
+
+.addressBtn {
+  width: 20%;
+  background: none !important;
+  border: none;
+  padding: 0 !important;
+  /*optional*/
+  font-family: arial, sans-serif;
+  /*input has OS specific font-family*/
+  color: #069;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.geolocation {
+  margin-top: 15%;
+  margin-bottom: 10%;
+  width: 45%;
+  height: 50px;
+  text-align: center;
+
+  background: #e5e5e5;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+}
+
+.registerBtn {
+  width: 90%;
+  height: 50px;
+
+  background: #57bc8d;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+
+  font-family: 'Red Hat Display';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 42px;
+
+  color: #ffffff;
+}
+
+.part1-form {
+  margin-top: 7%;
+}
+
+.resetCard {
+  margin-top: 5%;
+  margin-right: 5%;
+  grid-area: reset;
+  width: 95%;
+  height: 100px;
+  text-align: center;
+
+  background: #c4c4c4;
+  border-radius: 10px;
+}
+
+.resetBtn {
+  width: 90%;
+  height: 50px;
+  margin-top: 5%;
+
+  background: #ef4921;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+
+  font-family: 'Red Hat Display';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 32px;
+  line-height: 42px;
+
+  color: #ffffff;
+}

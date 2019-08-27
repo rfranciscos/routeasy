@@ -29,7 +29,7 @@ class App extends Component {
           .get(
             `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURI(
               state.address
-            )}&key=KEY`
+            )}&key=KEY.`
           )
           .then(responseFromApi => {
             const address = responseFromApi.data.results[0];

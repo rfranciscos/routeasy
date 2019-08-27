@@ -4,7 +4,9 @@ import './index.css';
 class Form extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      customer: ''
+    };
   }
 
   handleChange(event) {
@@ -23,7 +25,7 @@ class Form extends Component {
                 type='text'
                 name='customer'
                 id=''
-                value={this.props.customer}
+                value={this.state.customer}
                 placeholder='Nome do Cliente'
                 onChange={e => this.handleChange(e)}
               />
@@ -32,7 +34,7 @@ class Form extends Component {
                 type='number'
                 name='weight'
                 id=''
-                value={this.props.weight}
+                value={this.state.weight}
                 placeholder='Peso da Entrega'
                 onChange={e => this.handleChange(e)}
               />
@@ -42,7 +44,7 @@ class Form extends Component {
                   type='text'
                   name='address'
                   id=''
-                  value={this.props.address}
+                  value={this.state.address}
                   placeholder='Endereço Cliente'
                   onChange={e => this.handleChange(e)}
                 />
@@ -75,13 +77,25 @@ class Form extends Component {
             <button
               className='registerBtn'
               type='button'
-              onClick={() => this.props.saveDeliverie()}>
+              onClick={() => {
+                this.props.saveDeliverie();
+                setTimeout(() => {
+                  this.setState({
+                    customer: '',
+                    weight: '',
+                    address: ''
+                  });
+                }, 100);
+              }}>
               Cadastrar Cliente
             </button>
           </form>
         </div>
         <div className='resetCard'>
-          <button className='resetBtn' type='submit'>
+          <button
+            className='resetBtn'
+            type='button'
+            onClick={() => this.props.deleteDeliveries()}>
             Resetar Cadastro
           </button>
         </div>

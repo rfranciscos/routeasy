@@ -7,10 +7,8 @@ router.get('/', (req, res, next) => {
   res.render('index');
 });
 
-/* GET home page */
+/* POST deliveries */
 router.post('/register', (req, res, next) => {
-  // const { customer, weight, address, geolocation } = req.body;
-
   const newDeliveries = new Deliveries({
     customer: req.body.customer,
     weight: req.body.weight,
@@ -25,16 +23,32 @@ router.post('/register', (req, res, next) => {
     .catch(err => res.status(400).json(err));
 });
 
-// GET route => to get all the events
+// GET route => to get all deliveries
 router.get('/deliveries', (req, res, next) => {
   Deliveries.find()
-    // .populate("tasks")
     .then(response => {
       res.json(response);
     })
-    .catch(err => {
-      res.json(err);
-    });
+    .catch(err => res.status(400).json(err));
+});
+
+// GET route => to remove all deliveries
+router.get('/delete_deliveries', (req, res, next) => {
+  Deliveries.remove({})
+    .then(response => {
+      res.json(response);
+    })
+    .catch(err => res.status(400).json(err));
+});
+
+// GET route => to revove by id
+router.get('/delete_delivery/:id', (req, res, next) => {
+  const { id } = req.params;
+  Deliveries.findByIdAndRemove({ _id: id })
+    .then(response => {
+      res.json(response);
+    })
+    .catch(err => res.status(400).json(err));
 });
 
 module.exports = router;

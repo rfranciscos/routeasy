@@ -42,6 +42,7 @@ class Table extends Component {
               <th>Peso</th>
               <th>Lat</th>
               <th>Lng</th>
+              <th></th>
             </tr>
             {this.props.deliveries.map((delivery, i) => {
               return (
@@ -55,6 +56,13 @@ class Table extends Component {
                   <td>{delivery.weight}</td>
                   <td>{delivery.geolocation.latitude}</td>
                   <td>{delivery.geolocation.longitude}</td>
+                  <td>
+                    <input
+                      type='button'
+                      value='remover'
+                      onClick={() => this.props.removeOneDelivery(delivery._id)}
+                    />
+                  </td>
                 </tr>
               );
             })}

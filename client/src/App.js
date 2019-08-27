@@ -22,6 +22,7 @@ class App extends Component {
     this.mymap = '';
   }
 
+  // get address from the form and send to Geocoding API
   getAddress = state => {
     state.address
       ? axios
@@ -56,6 +57,7 @@ class App extends Component {
       : this.setState({ message: 'Adicione um endereço válido' });
   };
 
+  // Save form inputs to API
   saveDeliverie = () => {
     axios
       .post('http://localhost:5000/register', this.state)
@@ -75,6 +77,7 @@ class App extends Component {
       .catch(error => console.log(error));
   };
 
+  //request all deliveries
   getDeliveries = () => {
     axios
       .get('http://localhost:5000/deliveries')
@@ -86,6 +89,7 @@ class App extends Component {
       .catch(error => console.log(error));
   };
 
+  //render the map
   map = () => {
     this.mymap = L.map('map').setView([-23.55052, -46.633309], 13);
 
@@ -102,7 +106,7 @@ class App extends Component {
     ).addTo(this.mymap);
 
     for (let i = 0; i < this.state.deliveries.length; i++) {
-      console.log(this.state.deliveries.length);
+      console.log(this.state.deliveries);
 
       L.marker([
         this.state.deliveries[i].geolocation.latitude,
@@ -116,19 +120,8 @@ class App extends Component {
     }
   };
 
+  // update the map
   update = () => {
-    L.tileLayer(
-      'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
-      {
-        attribution:
-          'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-        maxZoom: 18,
-        id: 'mapbox.streets',
-        accessToken:
-          'pk.eyJ1IjoicmZyYW5jaXNjbyIsImEiOiJjanpzeGx5MHgxZW52M2ptaW9zbXY0bmw1In0.MrOJaTwh7ZjLSg8bSsvUBg'
-      }
-    ).addTo(this.mymap);
-
     for (let i = 0; i < this.state.deliveries.length; i++) {
       console.log(this.state.deliveries.length);
 
@@ -144,6 +137,30 @@ class App extends Component {
     }
   };
 
+  //delete all registers on the API
+  deleteDeliveries = () => {
+    axios
+      .get('http://localhost:5000/delete_deliveries')
+      .then(() => {
+        console.log('sucesso');
+        this.getDeliveries();
+        this.update();
+      })
+      .catch(error => console.log(error));
+  };
+
+  //remove delevery by id
+  removeOneDelivery = id => {
+    axios
+      .get(`http://localhost:5000/delete_delivery/${id}`)
+      .then(() => {
+        console.log('sucesso');
+        this.getDeliveries();
+        this.update();
+      })
+      .catch(error => console.log(error));
+  };
+
   componentDidUpdate() {
     setTimeout(() => {
       this.update();
@@ -154,6 +171,7 @@ class App extends Component {
     setTimeout(() => {
       this.map();
     }, 50);
+    console.log('deletou');
   }
 
   render() {
@@ -165,9 +183,13 @@ class App extends Component {
           getAddress={address => this.getAddress(address)}
           geolocation={this.state.geolocation}
           saveDeliverie={deliveryInfo => this.saveDeliverie(deliveryInfo)}
+          deleteDeliveries={() => this.deleteDeliveries()}
         />
         <Map deliveries={this.state.deliveries} />
-        <Table deliveries={this.state.deliveries} />
+        <Table
+          deliveries={this.state.deliveries}
+          removeOneDelivery={id => this.removeOneDelivery(id)}
+        />
       </div>
     );
   }

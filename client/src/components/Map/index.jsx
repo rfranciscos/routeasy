@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import L from 'leaflet';
 import './index.css';
-import 'leaflet/dist/leaflet.css';
 
 class Form extends Component {
   constructor(props) {
@@ -11,11 +9,7 @@ class Form extends Component {
     };
   }
 
-
-
-  componentDidMount() {
-
-  }
+  componentDidMount() {}
 
   render() {
     return <div id='map'></div>;

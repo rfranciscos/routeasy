@@ -29,7 +29,7 @@ class App extends Component {
           .get(
             `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURI(
               state.address
-            )}&key=KEY.`
+            )}&key=KEY`
           )
           .then(responseFromApi => {
             const address = responseFromApi.data.results[0];
@@ -171,11 +171,9 @@ class App extends Component {
     setTimeout(() => {
       this.map();
     }, 50);
-    console.log('deletou');
   }
 
   render() {
-    console.log(this.state.deliveries.length);
 
     return (
       <div className='container'>

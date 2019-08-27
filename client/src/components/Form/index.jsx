@@ -1,16 +1,10 @@
 import React, { Component, Fragment } from 'react';
-import axios from 'axios';
 import './index.css';
 
 class Form extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      geolocation: {
-        latitude: '',
-        longitude: ''
-      }
-    };
+    this.state = {};
   }
 
   handleChange(event) {
@@ -18,42 +12,9 @@ class Form extends Component {
     this.setState({ [name]: value });
   }
 
-  getAddress = address => {
-    console.log(address);
-    address
-      ? axios
-          .get(
-            `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURI(
-              address
-            )}&key=AIzaSyAsj3zrJUdEZWBC5XJ_FADJbBosbD3clcQ`
-          )
-          .then(responseFromApi => {
-            const address = responseFromApi.data.results[0];
-            console.log(responseFromApi.data.results[0]);
-
-            this.setState({
-              address: {
-                route: address.address_components[1].long_name,
-                number: address.address_components[0].long_name,
-                neighborhood: address.address_components[2].long_name,
-                complement: '',
-                city: address.address_components[3].long_name,
-                state: address.address_components[4].short_name,
-                country: address.address_components[5].short_name
-              },
-              geolocation: {
-                latitude: address.geometry.location.lat,
-                longitude: address.geometry.location.lng
-              }
-            });
-          })
-          .catch(error => console.log(error))
-      : this.setState({ message: 'Adicione um endereço válido' });
-  };
-
-  componentDidMount() {}
-
   render() {
+    console.log(this.state);
+
     return (
       <Fragment>
         <div className='form'>
@@ -88,7 +49,7 @@ class Form extends Component {
                   className='addressBtn'
                   type='button'
                   value='Buscar'
-                  onClick={() => this.getAddress(this.state.address)}
+                  onClick={() => this.props.getAddress(this.state)}
                 />
               </div>
             </div>
@@ -99,7 +60,7 @@ class Form extends Component {
               id=''
               placeholder='Latitude'
               disabled
-              value={this.state.geolocation.latitude}
+              value={this.props.geolocation.latitude}
             />
             <input
               className='geolocation'
@@ -108,9 +69,12 @@ class Form extends Component {
               id=''
               placeholder='Longitude'
               disabled
-              value={this.state.geolocation.longitude}
+              value={this.props.geolocation.longitude}
             />
-            <button className='registerBtn' type='submit'>
+            <button
+              className='registerBtn'
+              type='button'
+              onClick={() => this.props.saveDeliverie()}>
               Cadastrar Cliente
             </button>
           </form>

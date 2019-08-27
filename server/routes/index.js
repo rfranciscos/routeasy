@@ -9,7 +9,6 @@ router.get('/', (req, res, next) => {
 
 /* GET home page */
 router.post('/register', (req, res, next) => {
-  console.log(req.body, 'oi');
   // const { customer, weight, address, geolocation } = req.body;
 
   const newDeliveries = new Deliveries({

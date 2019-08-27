@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Form from './components/Form';
 import Table from './components/Table';
 import Map from './components/Map';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
 import axios from 'axios';
 
@@ -17,10 +19,10 @@ class App extends Component {
       },
       deliveries: []
     };
+    this.mymap = '';
   }
 
   getAddress = state => {
-    console.log(state);
     state.address
       ? axios
           .get(
@@ -57,8 +59,18 @@ class App extends Component {
   saveDeliverie = () => {
     axios
       .post('http://localhost:5000/register', this.state)
-      .then(responseFromApi => {
+      .then(() => {
         console.log('sucesso');
+        this.getDeliveries();
+        this.setState({
+          customer: '',
+          weight: '',
+          address: '',
+          geolocation: {
+            latitude: '',
+            longitude: ''
+          }
+        });
       })
       .catch(error => console.log(error));
   };
@@ -70,17 +82,83 @@ class App extends Component {
         this.setState({
           deliveries: responseFromApi.data
         });
-        // console.log(this.state.deliveries.data, 'sucesso');
-        
       })
       .catch(error => console.log(error));
   };
 
+  map = () => {
+    this.mymap = L.map('map').setView([-23.55052, -46.633309], 13);
+
+    L.tileLayer(
+      'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
+      {
+        attribution:
+          'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox.streets',
+        accessToken:
+          'pk.eyJ1IjoicmZyYW5jaXNjbyIsImEiOiJjanpzeGx5MHgxZW52M2ptaW9zbXY0bmw1In0.MrOJaTwh7ZjLSg8bSsvUBg'
+      }
+    ).addTo(this.mymap);
+
+    for (let i = 0; i < this.state.deliveries.length; i++) {
+      console.log(this.state.deliveries.length);
+
+      L.marker([
+        this.state.deliveries[i].geolocation.latitude,
+        this.state.deliveries[i].geolocation.longitude
+      ])
+        .addTo(this.mymap)
+        .bindPopup(
+          `<b>${this.state.deliveries[i].customer}</b><br>${this.state.deliveries[i].weight}`
+        )
+        .openPopup();
+    }
+  };
+
+  update = () => {
+    L.tileLayer(
+      'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
+      {
+        attribution:
+          'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox.streets',
+        accessToken:
+          'pk.eyJ1IjoicmZyYW5jaXNjbyIsImEiOiJjanpzeGx5MHgxZW52M2ptaW9zbXY0bmw1In0.MrOJaTwh7ZjLSg8bSsvUBg'
+      }
+    ).addTo(this.mymap);
+
+    for (let i = 0; i < this.state.deliveries.length; i++) {
+      console.log(this.state.deliveries.length);
+
+      L.marker([
+        this.state.deliveries[i].geolocation.latitude,
+        this.state.deliveries[i].geolocation.longitude
+      ])
+        .addTo(this.mymap)
+        .bindPopup(
+          `<b>${this.state.deliveries[i].customer}</b><br>${this.state.deliveries[i].weight}`
+        )
+        .openPopup();
+    }
+  };
+
+  componentDidUpdate() {
+    setTimeout(() => {
+      this.update();
+    }, 50);
+  }
   componentDidMount() {
     this.getDeliveries();
+    setTimeout(() => {
+      this.map();
+    }, 50);
   }
 
   render() {
+    console.log(this.state.deliveries.length);
+
     return (
       <div className='container'>
         <Form

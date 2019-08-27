@@ -13,8 +13,6 @@ class Form extends Component {
   }
 
   render() {
-    console.log(this.state);
-
     return (
       <Fragment>
         <div className='form'>
@@ -25,6 +23,7 @@ class Form extends Component {
                 type='text'
                 name='customer'
                 id=''
+                value={this.props.customer}
                 placeholder='Nome do Cliente'
                 onChange={e => this.handleChange(e)}
               />
@@ -33,6 +32,7 @@ class Form extends Component {
                 type='number'
                 name='weight'
                 id=''
+                value={this.props.weight}
                 placeholder='Peso da Entrega'
                 onChange={e => this.handleChange(e)}
               />
@@ -42,6 +42,7 @@ class Form extends Component {
                   type='text'
                   name='address'
                   id=''
+                  value={this.props.address}
                   placeholder='Endereço Cliente'
                   onChange={e => this.handleChange(e)}
                 />

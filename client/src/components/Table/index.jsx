@@ -11,7 +11,6 @@ class Table extends Component {
     let totalWeight = 0;
     for (let i = 0; i < this.props.deliveries.length; i++) {
       totalWeight += this.props.deliveries[i].weight;
-      console.log(totalWeight);
     }
     this.setState({
       totalWeight: totalWeight
@@ -25,8 +24,6 @@ class Table extends Component {
   }
 
   render() {
-    console.log(this.state.totalWeight);
-
     return (
       <div className='deliveries'>
         <h3>
